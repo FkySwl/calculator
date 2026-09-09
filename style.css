@@ -1,0 +1,73 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: rgb(22,22,22);
+    color: rgb(210,210,210);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 100%;
+    align-items: center;
+    padding: 20px;
+    gap: 20px;
+    background-color: rgb(40,40,40);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 5px 5px 10px rgba(0,0,0,.4);
+}
+
+.title {
+    text-align: center;
+}
+
+.result-container {
+    background-color: rgb(210,210,210);
+    height: 50px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: inset 4px 4px 8px rgba(0,0,0,.8);
+}
+
+.keypad-container {
+    display: flex;
+    gap: 20px;
+}
+
+.number {
+    display: grid;
+    grid-template-columns: repeat(3, 60px);
+    gap: 20px;
+}
+
+.operation {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 100%;
+    gap: 20px;
+}
+
+button {  
+    height: 60px;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+    border: none;
+    background-color: rgb(210,210,210);
+    font-size: 28px;
+    box-shadow: 4px 4px 10px rgba(0,0,0,.4);
+    transition: ease-in .2s;
+}
+
+button:hover {
+    background-color: rgb(100,100,100);
+}
