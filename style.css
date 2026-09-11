@@ -35,12 +35,11 @@ body {
     margin-bottom: 20px;
 }
 
-.result-container .calculate {
+.result-container .calc-preview {
     height: 50px;
     text-align: center;
     align-content: center;
     color: rgb(40,40,40);
-    overflow: hidden;
     font-weight: bold;
     font-size: 30px;
     background-color: rgb(210,210,210);
