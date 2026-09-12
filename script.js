@@ -1,5 +1,3 @@
-// const numbers = document.querySelectorAll('.number');
-// const operations = document.querySelectorAll('.operation');
 const keypads = document.querySelectorAll('.keypad');
 const calcPreview = document.querySelector('.calc-preview');
 const samaDengan = document.querySelector('.sama-dengan');
@@ -17,10 +15,11 @@ keypads.forEach(keypad => {
             calcPreview.value += keypad.textContent;
             calculate.push(Number(numToCalc));
             numToCalc = '';
-            calculate.push(keypad.textContent.replaceAll(' ', ''));
-        } else if (keypad.classList.contains('sama-dengan')) {
+            calculate.push(keypad.textContent);
+        } else if (keypad.classList.contains('sama-dengan') && numToCalc.length > 0) {
             calculate.push(Number(numToCalc));
             while (calculate.length > 1) {
+                console.log("masih");
                 let index = 0;
                 if (calculate.indexOf('x') > 0) {
                     index = calculate.indexOf('x');
@@ -41,6 +40,11 @@ keypads.forEach(keypad => {
                 }
             }
             result.textContent = calculate;
+            calcPreview.value = calculate[0];
+            console.log(calculate)
+            numToCalc = '';
+        } else if (keypad.classList.contains('del') && calcPreview.value.length > 0 && calculate.length > 0 && numToCalc.length > 0) {
+
         }
     });
 });
