@@ -1,50 +1,60 @@
-const keypads = document.querySelectorAll('.keypad');
+const buttons = document.querySelectorAll('.keypad');
 const calcPreview = document.querySelector('.calc-preview');
 const samaDengan = document.querySelector('.sama-dengan');
 const result = document.querySelector('.result'); 
 
-let calculate = [];
-let numToCalc = '';
+// membuat tempat untuk menaruh karakter seluruh karakter sementara ketika menekan tombol
+let allChar = '';
+// tempat untuk menaruh angka yang sudah di jadikan number dan juga seluruh operasinya
+let numToCalc = [];
 
-keypads.forEach(keypad => {
-    keypad.addEventListener('click', function() {
-        if (keypad.classList.contains('number')) {
-            calcPreview.value += keypad.textContent;
-            numToCalc += keypad.textContent; 
-        } else if (keypad.classList.contains('operation')) {
-            calcPreview.value += keypad.textContent;
-            calculate.push(Number(numToCalc));
-            numToCalc = '';
-            calculate.push(keypad.textContent);
-        } else if (keypad.classList.contains('sama-dengan') && numToCalc.length > 0) {
-            calculate.push(Number(numToCalc));
-            while (calculate.length > 1) {
-                console.log("masih");
+// memberikan event ke semua tombol
+buttons.forEach(button => {
+    button.addEventListener('click', function() {
+        if (button.classList.contains('number')) {
+            allChar += button.textContent;
+            calcPreview.value = allChar;
+        } else if (button.classList.contains('operation')) {
+            allChar += button.textContent;
+            calcPreview.value = allChar;
+        } else if (button.classList.contains('sama-dengan') && allChar.length > 1) {
+            numToCalc = allChar.split(' ');
+            if (numToCalc[0] == '') {
+                numToCalc.splice(0, 3, numToCalc[1] += numToCalc[2]);
+            }
+            const toNumber = numToCalc.map(item => {
+                if (item == 'x' || item == '/' || item == '+' || item == '-') {
+                    return item;
+                } else {
+                    return Number(item);
+                }
+            });
+            while (toNumber.length > 2) {
+                console.log("jalan");
                 let index = 0;
-                if (calculate.indexOf('x') > 0) {
-                    index = calculate.indexOf('x');
-                    const hasil = kalikan(calculate[index-1], calculate[index+1]);
-                    calculate.fill(hasil, index-1, index).splice(index, 2);
-                } else if (calculate.indexOf('/') > 0) {
-                    index = calculate.indexOf('/');
-                    const hasil = bagi(calculate[index-1], calculate[index+1]);
-                    calculate.fill(hasil, index-1, index).splice(index, 2);
-                } else if (calculate.indexOf('+') > 0) {
-                    index = calculate.indexOf('+'); 
-                    const hasil = tambahkan(calculate[index-1], calculate[index+1]);
-                    calculate.fill(hasil, index-1, index).splice(index, 2);
-                } else if (calculate.indexOf('-') > 0) {
-                    index = calculate.indexOf('-');
-                    const hasil = kurangkan(calculate[index-1], calculate[index+1]);
-                    calculate.fill(hasil, index-1, index).splice(index, 2);
+                if (toNumber.indexOf('x') > 0) {
+                    index = toNumber.indexOf('x');
+                    const hasil = kalikan(toNumber[index-1], toNumber[index+1]);
+                    toNumber.fill(hasil, index-1, index).splice(index, 2);
+                } else if (toNumber.indexOf('/') > 0) {
+                    index = toNumber.indexOf('/');
+                    const hasil = bagi(toNumber[index-1], toNumber[index+1]);
+                    toNumber.fill(hasil, index-1, index).splice(index, 2);
+                } else if (toNumber.indexOf('+') > 0) {
+                    index = toNumber.indexOf('+'); 
+                    const hasil = tambahkan(toNumber[index-1], toNumber[index+1]);
+                    toNumber.fill(hasil, index-1, index).splice(index, 2);
+                } else if (toNumber.indexOf('-') > 0) {
+                    index = toNumber.indexOf('-');
+                    const hasil = kurangkan(toNumber[index-1], toNumber[index+1]);
+                    toNumber.fill(hasil, index-1, index).splice(index, 2);
                 }
             }
-            result.textContent = calculate;
-            calcPreview.value = calculate[0];
-            console.log(calculate)
-            numToCalc = '';
-        } else if (keypad.classList.contains('del') && calcPreview.value.length > 0 && calculate.length > 0 && numToCalc.length > 0) {
-
+            result.textContent = toNumber;
+            calcPreview.value = toNumber;
+            [allChar] = toNumber;
+        } else if (button.classList.contains('del') && calcPreview.value.length > 0 && numToCalc.length > 0 && allChar.length > 0) {
+            
         }
     });
 });
@@ -64,4 +74,8 @@ function kalikan(a, b) {
 
 function bagi(a, b) {
     return a / b;
+}
+
+function calculate(array) {
+
 }
