@@ -18,10 +18,15 @@ buttons.forEach(button => {
             allChar += button.textContent;
             calcPreview.value = allChar;
         } else if (button.classList.contains('sama-dengan') && allChar.length > 1) {
+            // mengubah seluruh string menjadi array berisi angka angka yang dipisahkan oleh symbol operasinya
             numToCalc = allChar.split(' ');
+
+            // mengecek plus atau minus dari angka pertama
             if (numToCalc[0] == '') {
                 numToCalc.splice(0, 3, numToCalc[1] += numToCalc[2]);
             }
+
+            // mengubah semua string angka menjadi tipe data Number sehingga dapat di operate
             const toNumber = numToCalc.map(item => {
                 if (item == 'x' || item == '/' || item == '+' || item == '-') {
                     return item;
@@ -29,25 +34,15 @@ buttons.forEach(button => {
                     return Number(item);
                 }
             });
-            while (toNumber.length > 2) {
-                console.log("jalan");
-                let index = 0;
-                if (toNumber.indexOf('x') > 0) {
-                    index = toNumber.indexOf('x');
-                    const hasil = kalikan(toNumber[index-1], toNumber[index+1]);
-                    toNumber.fill(hasil, index-1, index).splice(index, 2);
-                } else if (toNumber.indexOf('/') > 0) {
-                    index = toNumber.indexOf('/');
-                    const hasil = bagi(toNumber[index-1], toNumber[index+1]);
-                    toNumber.fill(hasil, index-1, index).splice(index, 2);
-                } else if (toNumber.indexOf('+') > 0) {
-                    index = toNumber.indexOf('+'); 
-                    const hasil = tambahkan(toNumber[index-1], toNumber[index+1]);
-                    toNumber.fill(hasil, index-1, index).splice(index, 2);
-                } else if (toNumber.indexOf('-') > 0) {
-                    index = toNumber.indexOf('-');
-                    const hasil = kurangkan(toNumber[index-1], toNumber[index+1]);
-                    toNumber.fill(hasil, index-1, index).splice(index, 2);
+            for (let i = 0; toNumber.length > 2; i++) {
+                if (toNumber[i] == 'x' || toNumber[i] == '/') {
+                    const hasil = operate(toNumber[i-1], toNumber[i+1], toNumber[i]);
+                    toNumber.fill(hasil, i-1, i).splice(i, 2);
+                    i = 0;
+                } else if (toNumber[i] == '+' || toNumber[i] == '-') {
+                    const hasil = operate(toNumber[i-1], toNumber[i+1], toNumber[i]);
+                    toNumber.fill(hasil, i-1, i).splice(i, 2);
+                    i = 0;
                 }
             }
             result.textContent = toNumber;
@@ -59,6 +54,26 @@ buttons.forEach(button => {
     });
 });
 
+// function mengoperasikan perhitungan berdasarkan simbolnya  
+function operate(nilaiA, nilaiB, symbol) {
+    switch(symbol) {
+        case 'x' : 
+            return kalikan(nilaiA, nilaiB);
+            break;
+
+        case '/' :
+            return bagi(nilaiA, nilaiB);
+            break;
+        
+        case '+' : 
+            return tambahkan(nilaiA, nilaiB);
+            break;
+
+        case '-' :
+            return kurangkan(nilaiA, nilaiB);
+            break;
+    }
+}
 
 function tambahkan(a, b) {
     return a + b;
