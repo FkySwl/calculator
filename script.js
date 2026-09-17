@@ -18,8 +18,9 @@ buttons.forEach(button => {
             allChar += button.textContent;
             calcPreview.value = allChar;
         } else if (button.classList.contains('sama-dengan') && allChar.length > 1) {
+
             // mengubah seluruh string menjadi array berisi angka angka yang dipisahkan oleh symbol operasinya
-            numToCalc = allChar.split(' ');
+            numToCalc = giveSpace(allChar).split(' ');
 
             // mengecek plus atau minus dari angka pertama
             if (numToCalc[0] == '') {
@@ -35,10 +36,12 @@ buttons.forEach(button => {
                 }
             });
             for (let i = 0; toNumber.length > 2; i++) {
-                if (toNumber[i] == 'x' || toNumber[i] == '/') {
-                    const hasil = operate(toNumber[i-1], toNumber[i+1], toNumber[i]);
-                    toNumber.fill(hasil, i-1, i).splice(i, 2);
-                    i = 0;
+                if (toNumber.indexOf('x') > 0 || toNumber.indexOf('/') > 0) {
+                    if (toNumber[i] == 'x' || toNumber[i] == '/') {
+                        const hasil = operate(toNumber[i-1], toNumber[i+1], toNumber[i]);
+                        toNumber.fill(hasil, i-1, i).splice(i, 2);
+                        i = 0;    
+                    }
                 } else if (toNumber[i] == '+' || toNumber[i] == '-') {
                     const hasil = operate(toNumber[i-1], toNumber[i+1], toNumber[i]);
                     toNumber.fill(hasil, i-1, i).splice(i, 2);
@@ -48,11 +51,19 @@ buttons.forEach(button => {
             result.textContent = toNumber;
             calcPreview.value = toNumber;
             [allChar] = toNumber;
-        } else if (button.classList.contains('del') && calcPreview.value.length > 0 && numToCalc.length > 0 && allChar.length > 0) {
-            
-        }
+        } else if (button.classList.contains('del-all') && calcPreview.value.length > 0 && allChar.length > 0) {
+            allChar = '';
+            calcPreview.value = '';
+        } 
     });
 });
+
+function giveSpace(string) {
+    return string.replaceAll('+', ' + ')
+        .replaceAll('-', ' - ')
+        .replaceAll('x', ' x ')
+        .replaceAll('/', ' / ')
+}
 
 // function mengoperasikan perhitungan berdasarkan simbolnya  
 function operate(nilaiA, nilaiB, symbol) {
@@ -73,6 +84,12 @@ function operate(nilaiA, nilaiB, symbol) {
             return kurangkan(nilaiA, nilaiB);
             break;
     }
+}
+
+function removeLastChar(string) {
+    string = string.split('');
+    string.pop();
+    return string.join('');
 }
 
 function tambahkan(a, b) {
