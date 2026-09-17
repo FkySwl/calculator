@@ -50,10 +50,14 @@ buttons.forEach(button => {
             }
             result.textContent = toNumber;
             calcPreview.value = toNumber;
-            [allChar] = toNumber;
-        } else if (button.classList.contains('del-all') && calcPreview.value.length > 0 && allChar.length > 0) {
+            [allChar] = String(toNumber);
+        } else if (button.classList.contains('del')) {
+            allChar = removeLastChar(allChar);
+            calcPreview.value = allChar;
+        } else if (button.classList.contains('del-all')) {
             allChar = '';
             calcPreview.value = '';
+            result.textContent = '';
         } 
     });
 });
@@ -108,6 +112,3 @@ function bagi(a, b) {
     return a / b;
 }
 
-function calculate(array) {
-
-}
