@@ -15,8 +15,14 @@ buttons.forEach(button => {
             allChar += button.textContent;
             calcPreview.value = allChar;
         } else if (button.classList.contains('operation')) {
-            allChar += button.textContent;
-            calcPreview.value = allChar;
+            if (allChar[allChar.length-1] == 'x' || allChar[allChar.length-1] == '/' || allChar[allChar.length-1] == '+' || allChar[allChar.length-1] == '-') {
+                allChar = removeLastChar(allChar);
+                allChar += button.textContent;
+                calcPreview.value = allChar;
+            } else {
+                allChar += button.textContent;
+                calcPreview.value = allChar;
+            }
         } else if (button.classList.contains('sama-dengan') && allChar.length > 1) {
 
             // mengubah seluruh string menjadi array berisi angka angka yang dipisahkan oleh symbol operasinya
@@ -50,14 +56,17 @@ buttons.forEach(button => {
             }
             result.textContent = toNumber;
             calcPreview.value = toNumber;
-            [allChar] = String(toNumber);
+            allChar = String(toNumber);
         } else if (button.classList.contains('del')) {
             allChar = removeLastChar(allChar);
             calcPreview.value = allChar;
+            if (allChar.length == 0) {
+                result.textContent = allChar;
+            }
         } else if (button.classList.contains('del-all')) {
             allChar = '';
-            calcPreview.value = '';
-            result.textContent = '';
+            calcPreview.value = allChar;
+            result.textContent = allChar;
         } 
     });
 });
